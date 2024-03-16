@@ -20,6 +20,10 @@ const userSchema = new Schema(
       type: String,
       default: null,
     },
+    dailyWaterNorma: {
+      type: Number,
+      default: 0,
+    },
   },
   { versionKey: false, timestamps: true }
 );
