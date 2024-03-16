@@ -10,7 +10,3 @@ export const signUp = async (data) => {
 export const setToken = (id, token = "") => {
   return User.findByIdAndUpdate(id, { token });
 };
-
-export const setSubscription = (id, subscription) => {
-  return User.findByIdAndUpdate(id, { subscription });
-};
