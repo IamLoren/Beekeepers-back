@@ -17,9 +17,7 @@ const register = async (req, res) => {
   const newUser = await authServices.signUp(req.body);
 
   res.status(201).json({
-    username: newUser.username,
     email: newUser.email,
-    subscription: newUser.subscription,
   });
 };
 
@@ -39,31 +37,23 @@ const login = async (req, res) => {
   };
   const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "23h" });
   await authServices.setToken(user._id, token);
-  res.json({ token, user: { email, subscription: user.subscription } });
+  res.json({ token, user: { email } });
 };
 
 const getCurrent = async (req, res) => {
-  const { email, subscription } = req.user;
-  res.json = { email, subscription };
+  const { email } = req.user;
+  res.json = { email };
 };
 
 const logout = async (req, res) => {
   const { _id } = req.user;
   await authServices.setToken(_id);
-  res.status(204);
-};
-
-const updateSubscription = async (req, res) => {
-  const { _id } = req.user;
-  const { subscription } = req.body;
-  await authServices.setSubscription(_id, subscription);
-  res.json({ subscription });
+  res.status(204).end();
 };
 
 export default {
   register: ctrWrapper(register),
   login: ctrWrapper(login),
-  updateSubscription: ctrWrapper(updateSubscription),
   logout: ctrWrapper(logout),
   getCurrent: ctrWrapper(getCurrent),
 };
