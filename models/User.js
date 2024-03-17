@@ -4,6 +4,12 @@ import { emailRegexp } from "../constants/regexp.js";
 
 const userSchema = new Schema(
   {
+    name: {
+      type: String,
+      minlength: 2,
+      maxlength: 20,
+      required: [true, "Name is required"],
+    },
     password: {
       type: String,
       minlength: 8,
