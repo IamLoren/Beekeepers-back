@@ -8,7 +8,6 @@ const userSchema = new Schema(
       type: String,
       minlength: 2,
       maxlength: 20,
-      required: [true, "Name is required"],
     },
     password: {
       type: String,
@@ -30,6 +29,11 @@ const userSchema = new Schema(
       type: Number,
       default: 0,
     },
+    gender: {
+      type: String,
+      enum: ["man", "woman"],
+      default: "man",
+    }
   },
   { versionKey: false, timestamps: true }
 );
