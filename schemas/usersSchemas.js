@@ -10,3 +10,7 @@ export const signinSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
   password: Joi.string().min(8).required(),
 });
+
+export const waterRateSchema = Joi.object({
+  dailyWaterNorma: Joi.number().min(0).max(15).required(),
+});
