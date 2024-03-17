@@ -5,8 +5,6 @@ import ctrWrapper from "../decorators/ctrWrapper.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const { JWT_SECRET } = process.env;
-
 const register = async (req, res) => {
   const { email } = req.body;
   const user = await findUser({ email });
@@ -15,8 +13,10 @@ const register = async (req, res) => {
   }
 
   const newUser = await authServices.signUp(req.body);
+  const token = await sign(newUser);
 
   res.status(201).json({
+    token,
     email: newUser.email,
   });
 };
@@ -32,11 +32,7 @@ const login = async (req, res) => {
   if (!passwordCompare) {
     throw HttpError(401, "Invalid email or password");
   }
-  const payload = {
-    id: user._id,
-  };
-  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "23h" });
-  await authServices.setToken(user._id, token);
+  const token = await sign(user);
   res.json({ token, user: { email } });
 };
 
@@ -49,6 +45,15 @@ const logout = async (req, res) => {
   const { _id } = req.user;
   await authServices.setToken(_id);
   res.status(204).end();
+};
+
+const sign = async (user) => {
+  const payload = {
+    id: user._id,
+  };
+  const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "23h" });
+  await authServices.setToken(user._id, token);
+  return token;
 };
 
 export default {
