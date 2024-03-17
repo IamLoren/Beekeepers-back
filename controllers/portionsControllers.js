@@ -22,10 +22,13 @@ export const deletePortion = (req, res) => {
   if (!result) {
     throw HttpError(404);
   }
-  res.json(result);
+  res.status(204).send();
 };
 
 export const createPortion = async (req, res) => {
+  if (req.body.amount > 5000) {
+    throw HttpError(400, "Amount of water cannot exceed 5000ml");
+  }
   const result = await portionsService.addPortion(req.body);
   res.status(201).json(result);
 };
@@ -42,20 +45,10 @@ export const updatePortion = async (req, res) => {
   res.json(result);
 };
 
-export const updateStatusPortion = async (rec, res) => {
-  const { id } = req.params;
-  const result = await portionsService.updatePortion(id, req.body);
-  if (!result) {
-    throw HttpError(404);
-  }
-  res.json(result);
-};
-
 export default {
   getAllPortions: ctrWrapper(getAllPortions),
   getOnePortion: ctrWrapper(getOnePortion),
   createPortion: ctrWrapper(createPortion),
   updatePortion: ctrWrapper(updatePortion),
   deletePortion: ctrWrapper(deletePortion),
-  updateStatusPortion: ctrWrapper(updateStatusPortion),
 };
