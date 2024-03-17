@@ -11,6 +11,14 @@ const portionSchema = new Schema(
       type: String,
       required: true,
     },
+    dailyNorma: {
+      type: Number,
+      required: true,
+    },
+    consumeRatio: {
+      type: Number,
+      required: true,
+    },
   },
   {
     versionKey: false,
