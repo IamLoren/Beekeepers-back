@@ -8,6 +8,7 @@ import {
   deletePortion,
   createPortion,
   updatePortion,
+  getWaterConsumptionInfo,
 } from "../controllers/portionsControllers.js";
 import {
   createPortionSchema,
@@ -32,5 +33,7 @@ portionsRouter.put(
   validateBody(updatePortionSchema),
   updatePortion
 );
+
+portionsRouter.get("/month/:date", getWaterConsumptionInfo);
 
 export default portionsRouter;
