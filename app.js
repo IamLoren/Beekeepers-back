@@ -3,7 +3,6 @@ import morgan from "morgan";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-// import contactsRouter from "./routes/contactsRouter.js";
 import authRouter from "./routes/authRouter.js";
 import portionsRouter from "./routes/portionsRouter.js";
 dotenv.config();
@@ -15,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/auth", authRouter);
-// app.use("/api/contacts", contactsRouter);
+app.use("/api/auth/water-rate", authRouter);
 app.use("/api/portions", portionsRouter);
 
 app.use((_, res) => {
