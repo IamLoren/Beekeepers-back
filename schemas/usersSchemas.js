@@ -12,5 +12,5 @@ export const signinSchema = Joi.object({
 });
 
 export const waterRateSchema = Joi.object({
-  dailyWaterNorma: Joi.number().min(0).max(15).required(),
+  dailyWaterNorma: Joi.number().min(0).max(15000).required(),
 });
