@@ -5,6 +5,10 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import authRouter from "./routes/authRouter.js";
 import portionsRouter from "./routes/portionsRouter.js";
+import { authenticate } from "./middlewares/authenticate.js";
+import validateBody from "./helpers/validateBody.js";
+import { waterRateSchema } from "./schemas/usersSchemas.js";
+import authControllers from "./controllers/authControllers.js";
 dotenv.config();
 
 const app = express();
@@ -15,7 +19,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRouter);
 app.use("/api/portions", portionsRouter);
-app.patch(
+app.use(
   "/api/auth/water-rate",
   authenticate,
   validateBody(waterRateSchema),
