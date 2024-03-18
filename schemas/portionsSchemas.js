@@ -10,6 +10,6 @@ export const createPortionSchema = Joi.object({
 export const updatePortionSchema = Joi.object({
   amount: Joi.number(),
   time: Joi.string(),
-  dailyNorma: Joi.number().required(),
-  consumeRatio: Joi.number().required(),
+  dailyNorma: Joi.number(),
+  consumeRatio: Joi.number(),
 });
