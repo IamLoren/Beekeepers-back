@@ -27,8 +27,8 @@ const userSchema = new Schema(
     },
     dailyWaterNorma: {
       type: Number,
-      default: 1.8,
-      max: 15,
+      default: 1500,
+      max: 15000,
       min: 0,
     },
     gender: {
