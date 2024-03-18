@@ -28,7 +28,7 @@ authRouter.patch(
   "/water-rate",
   authenticate,
   validateBody(waterRateSchema),
-  updateWaterRate
+  authControllers.updateWaterRate
 );
 
 export default authRouter;
