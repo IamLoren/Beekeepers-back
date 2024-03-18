@@ -11,3 +11,5 @@ export const findUserById = (id) => {
 export const setSubscription = (id, subscription) => {
   return User.findByIdAndUpdate(id, { subscription });
 };
+export const updateUserWaterRate = (id, data) =>
+  User.findByIdAndUpdate(id, data);

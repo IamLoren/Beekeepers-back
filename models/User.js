@@ -27,13 +27,15 @@ const userSchema = new Schema(
     },
     dailyWaterNorma: {
       type: Number,
-      default: 0,
+      default: 1.8,
+      max: 15,
+      min: 0,
     },
     gender: {
       type: String,
       enum: ["man", "woman"],
       default: "man",
-    }
+    },
   },
   { versionKey: false, timestamps: true }
 );

@@ -4,6 +4,7 @@ import HttpError from "../helpers/HttpError.js";
 import ctrWrapper from "../decorators/ctrWrapper.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import * as userServices from "../services/userServices.js";
 
 const register = async (req, res) => {
   const { email } = req.body;
@@ -56,9 +57,21 @@ const sign = async (user) => {
   return token;
 };
 
+export const updateWaterRate = async (req, res) => {
+  const { _id } = req.user;
+  const result = await userServices.updateUserWaterRate(_id, req.body);
+  if (!result) {
+    throw HttpError(404, "Not found");
+  }
+  res.json({
+    result,
+  });
+};
+
 export default {
   register: ctrWrapper(register),
   login: ctrWrapper(login),
   logout: ctrWrapper(logout),
   getCurrent: ctrWrapper(getCurrent),
+  updateWaterRate: ctrWrapper(updateWaterRate),
 };
