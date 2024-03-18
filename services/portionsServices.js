@@ -2,10 +2,9 @@ import { Portion } from "../models/Portions.js";
 
 export const listPortions = () => Portion.find();
 
-export const getPortionById = async (contactId) => Portion.findById(contactId);
+export const getPortionById = async (id) => Portion.findById(id);
 
-export const removePortion = async (contactId) =>
-  Portion.findByIdAndDelete(contactId);
+export const removePortion = async (id) => Portion.findByIdAndDelete(id);
 
 export const addPortion = async (data) => Portion.create(data);
 
