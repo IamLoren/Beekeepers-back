@@ -3,6 +3,10 @@ import { handleSaveError, setUpdateSetting } from "./hooks.js";
 
 const portionSchema = new Schema(
   {
+    userId: {
+      type: String,
+      required: true,
+    },
     amount: {
       type: Number,
       required: true,
