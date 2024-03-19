@@ -15,11 +15,12 @@ const register = async (req, res) => {
 
   const newUser = await authServices.signUp(req.body);
   const token = await sign(newUser);
+  const date = newUser.createdAt.substring(0, 10);
 
   res.status(201).json({
     token,
     email: newUser.email,
-    date: newUser.createdAt.substring(0, 10)
+    date,
   });
 };
 
