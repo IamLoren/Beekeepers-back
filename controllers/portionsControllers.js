@@ -90,6 +90,24 @@ export const getWaterConsumptionInfo = async (req, res) => {
   res.json(dailyConsumptionRatios);
 };
 
+export const getDailyConsumptionInfo = async (req, res) => {
+  const userId = req.user.id;
+  const [day, month, year] = req.params.date.split(".");
+
+  const portions = await portionsService.findPortionsByDayAndUser(userId, day);
+  if (!portions.length) {
+    throw HttpError(400, "No notes yet");
+  }
+  console.log(portions);
+  const result = portions.map(({ _id, amount, time }) => ({
+    id: _id,
+    amount,
+    time,
+  }));
+
+  res.json(result);
+};
+
 export default {
   getAllPortions: ctrWrapper(getAllPortions),
   getOnePortion: ctrWrapper(getOnePortion),
@@ -97,4 +115,5 @@ export default {
   updatePortion: ctrWrapper(updatePortion),
   deletePortion: ctrWrapper(deletePortion),
   getWaterConsumptionInfo: ctrWrapper(getWaterConsumptionInfo),
+  getDailyConsumptionInfo: ctrWrapper(getDailyConsumptionInfo),
 };

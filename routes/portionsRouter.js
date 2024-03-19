@@ -10,6 +10,7 @@ import {
   createPortion,
   updatePortion,
   getWaterConsumptionInfo,
+  getDailyConsumptionInfo,
 } from "../controllers/portionsControllers.js";
 import {
   createPortionSchema,
@@ -36,5 +37,7 @@ portionsRouter.put(
 );
 
 portionsRouter.get("/month/:date", getWaterConsumptionInfo);
+
+portionsRouter.get("/today/:date", getDailyConsumptionInfo);
 
 export default portionsRouter;
