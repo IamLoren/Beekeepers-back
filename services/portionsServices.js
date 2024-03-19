@@ -11,8 +11,9 @@ export const addPortion = async (data) => Portion.create(data);
 export const updatePortion = async (id, body) =>
   Portion.findByIdAndUpdate(id, body);
 
-export const findPortionsByMonth = async (month) => {
+export const findPortionsByMonthAndUser = async (userId, month) => {
   const portions = await Portion.find({
+    userId: userId,
     $expr: {
       $and: [{ $eq: [{ $month: "$createdAt" }, month] }],
     },
