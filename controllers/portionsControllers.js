@@ -52,27 +52,30 @@ export const getWaterConsumptionInfo = async (req, res) => {
   const endDate = new Date(year, month, 0);
 
   const portions = await portionsService.findPortionsByMonth(month);
-  // const dailyNorma = await portionsService.findDailyNorma(user); // rename when ready
-  const dailyNorma = 2000;
 
   const groupedPortions = portions.reduce((acc, portion) => {
     const portionDate = new Date(portion.createdAt);
-    const day = portionDate.getDate();
+    const day = portionDate.getUTCDate();
     acc[day] = acc[day] || [];
     acc[day].push(portion);
     return acc;
   }, {});
-  console.log(groupedPortions);
 
   const dailyConsumptionRatios = [];
   for (let day = startDate.getDate(); day <= endDate.getDate(); day++) {
     const dayPortions = groupedPortions[day] || [];
+    const dailyNorma = dayPortions[dayPortions.length - 1]?.dailyNorma;
     const consumedWater = dayPortions.reduce(
       (total, portion) => total + portion.amount,
       0
     );
     const consumedWaterRatio = Math.round((consumedWater / dailyNorma) * 100);
-    dailyConsumptionRatios.push({ day: day.toString(), consumedWaterRatio });
+    dailyConsumptionRatios.push({
+      day: day.toString(),
+      dailyNorma,
+      consumedWaterRatio,
+      portionsCount: dayPortions.length,
+    });
   }
 
   res.json(dailyConsumptionRatios);
