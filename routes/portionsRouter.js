@@ -17,7 +17,7 @@ import {
 
 const portionsRouter = express.Router();
 
-// portionsRouter.use(authenticate);
+portionsRouter.use(authenticate);
 
 portionsRouter.get("/", getAllPortions);
 
