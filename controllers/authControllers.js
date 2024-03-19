@@ -19,7 +19,7 @@ const register = async (req, res) => {
   res.status(201).json({
     token,
     email: newUser.email,
-    date: newUser.createdAt
+    date: newUser.createdAt.substring(0, 10)
   });
 };
 
