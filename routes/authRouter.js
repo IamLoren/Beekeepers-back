@@ -24,11 +24,11 @@ authRouter.get("/current", authenticate, authControllers.getCurrent);
 
 authRouter.post("/logout", authenticate, authControllers.logout);
 
-// authRouter.patch(
-//   "/water-rate",
-//   authenticate,
-//   validateBody(singupSchema),
-//   authControllers.updateWaterRate
-// );
+authRouter.patch(
+  "/water-rate",
+  authenticate,
+  validateBody(waterRateSchema),
+  authControllers.updateWaterRate
+);
 
 export default authRouter;

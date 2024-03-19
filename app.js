@@ -19,12 +19,12 @@ app.use(express.json());
 
 app.use("/api/auth", authRouter);
 app.use("/api/portions", portionsRouter);
-app.use(
-  "/api/auth/water-rate",
-  authenticate,
-  validateBody(waterRateSchema),
-  authControllers.updateWaterRate
-);
+// app.use(
+//   "/api/auth/water-rate",
+//   authenticate,
+//   validateBody(waterRateSchema),
+//   authControllers.updateWaterRate
+// );
 
 app.use((_, res) => {
   res.status(404).json({ message: "Route not found" });
