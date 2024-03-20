@@ -20,7 +20,7 @@ const register = async (req, res) => {
     token,
     email: newUser.email,
     date: newUser.createdAt,
-    gender: newUser.newUser,
+    gender: newUser.gender,
   });
 };
 
