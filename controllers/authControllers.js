@@ -35,7 +35,7 @@ const login = async (req, res) => {
     throw HttpError(401, "Invalid email or password");
   }
   const token = await sign(user);
-  res.json({ token, user: { email } });
+  res.json({ token, user: { email },  date: newUser.createdAt });
 };
 
 const getCurrent = async (req, res) => {
