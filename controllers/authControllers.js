@@ -19,7 +19,8 @@ const register = async (req, res) => {
   res.status(201).json({
     token,
     email: newUser.email,
-    date: newUser.createdAt
+    date: newUser.createdAt,
+    gender: newUser.newUser,
   });
 };
 
@@ -35,12 +36,17 @@ const login = async (req, res) => {
     throw HttpError(401, "Invalid email or password");
   }
   const token = await sign(user);
-  res.json({ token, user: { email },  date: newUser.createdAt });
+  res.json({
+    token,
+    user: { email },
+    date: {createdAt},
+    gender: {gender},
+  });
 };
 
 const getCurrent = async (req, res) => {
-  const { email } = req.user;
-  res.json = { email };
+  const { email, createdAt,  gender} = req.user;
+  res.json = { email, createdAt,  gender };
 };
 
 const logout = async (req, res) => {
