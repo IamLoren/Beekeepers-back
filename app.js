@@ -1,6 +1,6 @@
 import express from "express";
 import morgan from "morgan";
-import cors from "cors";
+// import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import authRouter from "./routes/authRouter.js";
@@ -13,11 +13,11 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors({
-  origin: ['https://beekeepers-seven.vercel.app', "*"],
-  methods: ["GET","HEAD","PUT","PATCH","POST","DELETE"],
-  credentials: true,
-}))
+// app.use(cors({
+//   origin: ['https://beekeepers-seven.vercel.app', "*"],
+//   methods: ["GET","HEAD","PUT","PATCH","POST","DELETE"],
+//   credentials: true,
+// }))
 
 app.use(morgan("tiny"));
 app.use(cors());
