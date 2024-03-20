@@ -94,17 +94,17 @@ export const getDailyConsumptionInfo = async (req, res) => {
   const [day, month, year] = req.params.date.split("-");
 
   const portions = await portionsService.findPortionsByDayAndUser(userId, day);
-  if (!portions.length) {
-    throw HttpError(400, "No notes yet");
-  }
-  console.log(portions);
-  const result = portions.map(({ _id, amount, time }) => ({
-    id: _id,
-    amount,
-    time,
-  }));
 
-  res.json(result);
+  if (portions.length !== 0) {
+    const result = portions.map(({ _id, amount, time }) => ({
+      id: _id,
+      amount,
+      time,
+    }));
+    res.json(result);
+  } else {
+    res.json([]);
+  }
 };
 
 export default {
