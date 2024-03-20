@@ -14,7 +14,7 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: "https://beekeepers-seven.vercel.app",
+  origin: "*",
   methods: ["GET","HEAD","PUT","PATCH","POST","DELETE"],
   credentials: true,
 }))
