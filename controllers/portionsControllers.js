@@ -53,10 +53,9 @@ export const updatePortion = async (req, res) => {
 
 export const getWaterConsumptionInfo = async (req, res) => {
   const userId = req.user.id;
-  const [day, month, year] = req.params.date.split(".");
+  const [day, month, year] = req.params.date.split("-");
   const startDate = new Date(year, month - 1, 1);
   const endDate = new Date(year, month, 0);
-
   const portions = await portionsService.findPortionsByMonthAndUser(
     userId,
     month
@@ -92,7 +91,7 @@ export const getWaterConsumptionInfo = async (req, res) => {
 
 export const getDailyConsumptionInfo = async (req, res) => {
   const userId = req.user.id;
-  const [day, month, year] = req.params.date.split(".");
+  const [day, month, year] = req.params.date.split("-");
 
   const portions = await portionsService.findPortionsByDayAndUser(userId, day);
   if (!portions.length) {
