@@ -21,15 +21,12 @@ export const findPortionsByMonthAndUser = async (userId, month) => {
   return portions;
 };
 
-export const findPortionsByDayAndUser = async (userId, day, month, year) => {
+export const findPortionsByDayAndUser = async (userId, startDate, endDate) => {
   const portions = await Portion.find({
     userId: userId,
-    $expr: {
-      $and: [
-        { $eq: [{ $dayOfMonth: "$createdAt" }, day] },
-        { $eq: [{ $month: "$createdAt" }, month] },
-        { $eq: [{ $year: "$createdAt" }, year] },
-      ],
+    createdAt: {
+      $gte: startDate,
+      $lt: endDate,
     },
   });
   return portions;
