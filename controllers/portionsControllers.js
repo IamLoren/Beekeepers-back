@@ -53,6 +53,7 @@ export const updatePortion = async (req, res) => {
 
 export const getWaterConsumptionInfo = async (req, res) => {
   const userId = req.user.id;
+  console.log(req.params.date);
   const [day, month, year] = req.params.date.split("-");
   const startDate = new Date(year, month - 1, 1);
   const endDate = new Date(year, month, 0);
