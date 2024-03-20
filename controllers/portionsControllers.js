@@ -28,7 +28,6 @@ export const deletePortion = (req, res) => {
 
 export const createPortion = async (req, res) => {
   const userId = req.user.id;
-  console.log(userId);
   if (req.body.amount > 5000) {
     throw HttpError(400, "Amount of water cannot exceed 5000ml");
   }
@@ -53,7 +52,6 @@ export const updatePortion = async (req, res) => {
 
 export const getWaterConsumptionInfo = async (req, res) => {
   const userId = req.user.id;
-  console.log(req.params.date);
   const [day, month, year] = req.params.date.split("-");
   const startDate = new Date(year, month - 1, 1);
   const endDate = new Date(year, month, 0);
@@ -94,23 +92,17 @@ export const getDailyConsumptionInfo = async (req, res) => {
   const userId = req.user.id;
   const [day, month, year] = req.params.date.split("-");
 
-  const portions = await portionsService.findPortionsByDayAndUser(
-    userId,
-    day,
-    month,
-    year
-  );
-
-  if (portions.length !== 0) {
-    const result = portions.map(({ _id, amount, time }) => ({
-      id: _id,
-      amount,
-      time,
-    }));
-    res.json(result);
-  } else {
-    res.json([]);
+  const portions = await portionsService.findPortionsByDayAndUser(userId, day);
+  if (!portions.length) {
+    throw HttpError(400, "No notes yet");
   }
+  const result = portions.map(({ _id, amount, time }) => ({
+    id: _id,
+    amount,
+    time,
+  }));
+
+  res.json(result);
 };
 
 export default {
