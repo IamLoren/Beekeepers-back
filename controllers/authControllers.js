@@ -10,7 +10,7 @@ import Jimp from "jimp";
 
 import * as userServices from "../services/userServices.js";
 
-// import cloudinary from "../helpers/cloudinary.js";
+import cloudinary from "../helpers/cloudinary.js";
 const avatarDir = path.resolve("public", "auth");
 
 const register = async (req, res) => {
@@ -81,21 +81,20 @@ export const updateWaterRate = async (req, res) => {
 };
 
 const updateAvatar = async (req, res) => {
-  // const { url: avatarURL } = await cloudinary.uploader.upload(req.file.path, {
-  //   folder: "auth",
-  // });
-  // console.log(fileData);
-  const { _id } = req.user;
-  const { path: oldPath, filename } = req.file;
-  const newPath = path.join(avatarDir, filename);
+  try {
+    const { url: photoUrl } = await cloudinary.uploader.upload(req.file.path, {
+      folder: "avatars",
+    });
+    
+    // Очищаємо тимчасовий файл, якщо він більше не потрібний
+    fs.unlinkSync(req.file.path);
 
-  await fs.rename(oldPath, newPath);
-  await Jimp.read(newPath).resize(250, 250).writeAsync(newPath);
-
-  const avatarURL = path.join(avatarDir, filename);
-  const newUser = await userServices.updateAvatar(_id, avatarURL);
-
-  res.json({ avatarURL: newUser.avatarURL });
+    // Повертаємо URL завантаженого аватара
+    res.status(201).json({ photoUrl });
+  } catch (error) {
+    console.error("Error updating avatar:", error);
+    res.status(500).json({ message: "Error updating avatar" });
+  }
 };
 
 export default {
