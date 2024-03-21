@@ -14,17 +14,19 @@ export const updatePortion = async (id, body) =>
 export const findPortionsByMonthAndUser = async (userId, month) => {
   const startOfMonth = new Date(Date.UTC(new Date().getFullYear(), month - 1, 1));
   const endOfMonth = new Date(Date.UTC(new Date().getFullYear(), month, 0, 23, 59, 59, 999));
-console.log(startOfMonth, endOfMonth, 'startOfMonth, endOfMonth')
-  // Запит до бази даних для отримання порцій за вказаний місяць та користувача
+
+  // Запит до бази даних для отримання всіх порцій за вказаний місяць
   const portions = await Portion.find({
-    userId: userId,
     createdAt: {
       $gte: startOfMonth,
       $lt: endOfMonth,
     },
   });
-  
-  return portions;
+
+  // Фільтруємо порції лише для вказаного користувача
+  const userPortions = portions.filter(portion => portion.userId === userId);
+
+  return userPortions;
 
   // const portions = await Portion.find({
   //   userId: userId,
