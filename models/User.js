@@ -39,20 +39,11 @@ const userSchema = new Schema(
     avatarURL: {
       type: String,
     },
-    theme: {
-      type: String,
-      enum: ["light", "dark"],
-      default: "light",
-    },
-    verify: {
-      type: Boolean,
-      default: false,
-    },
-    verificationToken: {
-      type: String,
-      // required: [true, "Verify token is required"],
-    },
-
+    // theme: {
+    //   type: String,
+    //   enum: ["light", "dark"],
+    //   default: "light",
+    // },
   },
   { versionKey: false, timestamps: true }
 );
