@@ -29,7 +29,7 @@ const register = async (req, res) => {
     date: newUser.createdAt,
     gender: newUser.gender,
     dailyNormaWater:newUser.dailyWaterNorma,
-    theme: newUser.theme,
+    // theme: newUser.theme,
   });
 };
 
@@ -47,8 +47,8 @@ const login = async (req, res) => {
   const token = await sign(user);
   res.json({
     token,
-    user: { email, createdAt: user.createdAt, gender: user.gender, dailyNormaWater: user.dailyWaterNorma,
-      theme: user.theme},
+    user: { email, createdAt: user.createdAt, gender: user.gender, /*dailyNormaWater: user.dailyWaterNorma,*/
+      /*theme: user.theme*/},
   });
 };
 
