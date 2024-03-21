@@ -28,6 +28,7 @@ const register = async (req, res) => {
     email: newUser.email,
     date: newUser.createdAt,
     gender: newUser.gender,
+    dailyNormaWater:newUser.dailyWaterNorma,
   });
 };
 
