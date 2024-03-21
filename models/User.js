@@ -36,6 +36,9 @@ const userSchema = new Schema(
       enum: ["man", "woman"],
       default: "man",
     },
+    avatarURL: {
+      type: String,
+    },
   },
   { versionKey: false, timestamps: true }
 );
