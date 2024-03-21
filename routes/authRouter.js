@@ -11,6 +11,8 @@ import {
 import { authenticate } from "../middlewares/authenticate.js";
 import { updateUserWaterRate } from "../services/userServices.js";
 
+import upload from "../middlewares/upload.js";
+
 const authRouter = express.Router();
 
 authRouter.post(
@@ -29,6 +31,13 @@ authRouter.patch(
   authenticate,
   validateBody(waterRateSchema),
   authControllers.updateWaterRate
+);
+
+authRouter.patch(
+  "/avatar",
+  upload.single("avatarURL"),
+  authenticate,
+  authControllers.updateAvatar
 );
 
 export default authRouter;

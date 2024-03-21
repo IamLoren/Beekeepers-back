@@ -13,3 +13,6 @@ export const setSubscription = (id, subscription) => {
 };
 export const updateUserWaterRate = (id, data) =>
   User.findByIdAndUpdate(id, data);
+
+export const updateAvatar = (id, avatarURL) =>
+  User.findByIdAndUpdate(id, { avatarURL });

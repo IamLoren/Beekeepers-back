@@ -4,7 +4,14 @@ import HttpError from "../helpers/HttpError.js";
 import ctrWrapper from "../decorators/ctrWrapper.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import fs from "fs/promises";
+import path from "path";
+import Jimp from "jimp";
+
 import * as userServices from "../services/userServices.js";
+
+// import cloudinary from "../helpers/cloudinary.js";
+const avatarDir = path.resolve("public", "auth");
 
 const register = async (req, res) => {
   const { email } = req.body;
@@ -43,8 +50,8 @@ const login = async (req, res) => {
 };
 
 const getCurrent = async (req, res) => {
-  const { email, createdAt,  gender} = req.user;
-  res.json = { email, createdAt,  gender };
+  const { email, createdAt, gender } = req.user;
+  res.json = { email, createdAt, gender };
 };
 
 const logout = async (req, res) => {
@@ -73,10 +80,29 @@ export const updateWaterRate = async (req, res) => {
   });
 };
 
+const updateAvatar = async (req, res) => {
+  // const { url: avatarURL } = await cloudinary.uploader.upload(req.file.path, {
+  //   folder: "auth",
+  // });
+  // console.log(fileData);
+  const { _id } = req.user;
+  const { path: oldPath, filename } = req.file;
+  const newPath = path.join(avatarDir, filename);
+
+  await fs.rename(oldPath, newPath);
+  await Jimp.read(newPath).resize(250, 250).writeAsync(newPath);
+
+  const avatarURL = path.join(avatarDir, filename);
+  const newUser = await userServices.updateAvatar(_id, avatarURL);
+
+  res.json({ avatarURL: newUser.avatarURL });
+};
+
 export default {
   register: ctrWrapper(register),
   login: ctrWrapper(login),
   logout: ctrWrapper(logout),
   getCurrent: ctrWrapper(getCurrent),
   updateWaterRate: ctrWrapper(updateWaterRate),
+  updateAvatar: ctrWrapper(updateAvatar),
 };
