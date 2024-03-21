@@ -29,6 +29,7 @@ const register = async (req, res) => {
     date: newUser.createdAt,
     gender: newUser.gender,
     dailyNormaWater:newUser.dailyWaterNorma,
+    theme: newUser.theme,
   });
 };
 
