@@ -47,7 +47,8 @@ const login = async (req, res) => {
   const token = await sign(user);
   res.json({
     token,
-    user: { email, createdAt: user.createdAt, gender: user.gender },
+    user: { email, createdAt: user.createdAt, gender: user.gender, dailyNormaWater: user.dailyWaterNorma,
+      theme: user.theme},
   });
 };
 
