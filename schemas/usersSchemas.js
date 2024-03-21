@@ -14,3 +14,7 @@ export const signinSchema = Joi.object({
 export const waterRateSchema = Joi.object({
   dailyWaterNorma: Joi.number().min(0).max(15000).required(),
 });
+
+export const verifySchema = Joi.object({
+  email: Joi.string().pattern(emailRegexp).required(),
+});
