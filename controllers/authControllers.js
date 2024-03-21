@@ -81,7 +81,7 @@ export const updateWaterRate = async (req, res) => {
 };
 
 const updateAvatar = async (req, res) => {
-  const {url: photo } = await cloudinary.uploader.upload(req.file.path, {
+  const {url: avatarURL } = await cloudinary.uploader.upload(req.file.path, {
     folder: "avatars",
   });
   const { _id } = req.user;
@@ -92,7 +92,7 @@ const updateAvatar = async (req, res) => {
   const image = await Jimp.read(newPath);
   await image.resize(250, 250).writeAsync(newPath);
 
-  const avatarURL = path.join(avatarDir, filename);
+  // const avatarURL = path.join(avatarDir, filename);
   const newUser = await userServices.updateAvatar(_id, avatarURL);
 
   res.status(201).json(res);
