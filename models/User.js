@@ -42,6 +42,7 @@ const userSchema = new Schema(
     theme: {
       type: String,
       enum: ["light", "dark"],
+      default: "light",
     },
   },
   { versionKey: false, timestamps: true }
