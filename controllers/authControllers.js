@@ -81,36 +81,20 @@ export const updateWaterRate = async (req, res) => {
 };
 
 const updateAvatar = async (req, res) => {
-  // try {
-  //   const { url: photoUrl } = await cloudinary.uploader.upload(req.file.path, {
-  //     folder: "avatars",
-  //   });
-    
-  //   // Очищаємо тимчасовий файл, якщо він більше не потрібний
-  //   fs.unlinkSync(req.file.path);
-
-  //   // Повертаємо URL завантаженого аватара
-  //   res.status(201).json({ photoUrl });
-  // } catch (error) {
-  //   console.error("Error updating avatar:", error);
-  //   res.status(500).json({ message: "Error updating avatar" });
-  // }
-  // const { url: avatarURL } = await cloudinary.uploader.upload(req.file.path, {
-  //   folder: "auth",
-  // });
-  // console.log(fileData);
+  const {url: photo } = await cloudinary.uploader.upload(req.file.path, {
+    folder: "avatars",
+  });
   const { _id } = req.user;
-  const { path: oldPath, filename } = req.file;
-  const newPath = path.join(avatarDir, filename);
+  // const { path: oldPath, filename } = req.file;
+  // const newPath = path.join(avatarDir, filename);
 
-  await fs.rename(oldPath, newPath);
-  const image = await Jimp.read(newPath);
-  await image.resize(250, 250).writeAsync(newPath);
+  // await fs.rename(oldPath, newPath);
+  // await Jimp.read(newPath).resize(250, 250).writeAsync(newPath);
 
-  const avatarURL = path.join(avatarDir, filename);
-  const newUser = await userServices.updateAvatar(_id, avatarURL);
+  // const avatarURL = path.join(avatarDir, filename);
+  // const newUser = await userServices.updateAvatar(_id, avatarURL);
 
-  res.json({ avatarURL: newUser.avatarURL });
+  res.status(201).json(res);
 };
 
 export default {
