@@ -85,7 +85,7 @@ const updateAvatar = async (req, res) => {
     folder: "avatars",
   });
   const { _id } = req.user;
-  // const { path: oldPath, filename } = req.file;
+  const { path: oldPath, filename } = req.file;
   // const newPath = path.join(avatarDir, filename);
 
   // await fs.rename(oldPath, newPath);
