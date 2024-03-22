@@ -6,11 +6,14 @@ import validateBody from "../helpers/validateBody.js";
 import {
   signinSchema,
   singupSchema,
+
+  updateUserSchema,
+
   verifySchema,
+
   waterRateSchema,
 } from "../schemas/usersSchemas.js";
 import { authenticate } from "../middlewares/authenticate.js";
-import { updateUserWaterRate } from "../services/userServices.js";
 
 import upload from "../middlewares/upload.js";
 
@@ -41,6 +44,13 @@ authRouter.patch(
   authenticate,
   validateBody(waterRateSchema),
   authControllers.updateWaterRate
+);
+
+authRouter.patch(
+  "/user",
+  authenticate,
+  validateBody(updateUserSchema),
+  authControllers.updateUser
 );
 
 authRouter.patch(

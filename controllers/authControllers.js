@@ -114,6 +114,30 @@ const login = async (req, res) => {
 };
 
 const getCurrent = async (req, res) => {
+  res.status(200).json(req.user);
+};
+
+const updateUser = async (req, res) => {
+  const { _id } = req.user;
+  const { oldPassword, newPassword, ...updatedInfo } = req.body;
+
+  const user = await findUser({ _id });
+  if (!user) {
+    throw HttpError(404, `User with id: [${_id}] not found`);
+  }
+
+  if (oldPassword && newPassword) {
+    const passwordCompare = await bcrypt.compare(oldPassword, user.password);
+    if (!passwordCompare) {
+      throw HttpError(401, "Outdated password is invalid");
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 8);
+    updatedInfo.password = hashedPassword;
+  }
+
+  const updatedUser = await userServices.updateUser(_id, updatedInfo);
+  res.json(updatedUser);
   const { email } = req.user;
   const user = await findUser({ email });
   res.status(200).json(token, {
@@ -143,7 +167,7 @@ const sign = async (user) => {
 
 export const updateWaterRate = async (req, res) => {
   const { _id } = req.user;
-  const result = await userServices.updateUserWaterRate(_id, req.body);
+  const result = await userServices.updateUser(_id, req.body);
   if (!result) {
     throw HttpError(404, "Not found");
   }
@@ -153,7 +177,9 @@ export const updateWaterRate = async (req, res) => {
 };
 
 const updateAvatar = async (req, res) => {
+
   const { _id } = req.user;
+
   const { url: avatarURL } = await cloudinary.uploader.upload(req.file.path, {
     folder: "avatars",
   });
@@ -178,6 +204,10 @@ export default {
   getCurrent: ctrWrapper(getCurrent),
   updateWaterRate: ctrWrapper(updateWaterRate),
   updateAvatar: ctrWrapper(updateAvatar),
+
+  updateUser: ctrWrapper(updateUser),
+
   verify: ctrWrapper(verify),
   resendVerify: ctrWrapper(resendVerify),
+
 };
