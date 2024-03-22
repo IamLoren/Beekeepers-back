@@ -28,7 +28,7 @@ const register = async (req, res) => {
     email: newUser.email,
     date: newUser.createdAt,
     gender: newUser.gender,
-    dailyNormaWater:newUser.dailyWaterNorma,
+    dailyNormaWater: newUser.dailyWaterNorma,
     theme: newUser.theme,
   });
 };
@@ -47,15 +47,27 @@ const login = async (req, res) => {
   const token = await sign(user);
   res.json({
     token,
-    user: { email, createdAt: user.createdAt, gender: user.gender, dailyNormaWater: user.dailyWaterNorma,
-      theme: user.theme},
+    user: {
+      email,
+      createdAt: user.createdAt,
+      gender: user.gender,
+      dailyNormaWater: user.dailyWaterNorma,
+      theme: user.theme,
+    },
   });
 };
 
 const getCurrent = async (req, res) => {
   const { email } = req.user;
   const user = await findUser({ email });
-  res.status(200).json( token, { email: user.email, createdAt:user.createdAt, gender: user.gender, avatarURL: user.avatarURL, dailyNorma: user.dailyNorma, theme: user.theme });
+  res.status(200).json(token, {
+    email: user.email,
+    createdAt: user.createdAt,
+    gender: user.gender,
+    avatarURL: user.avatarURL,
+    dailyNorma: user.dailyNorma,
+    theme: user.theme,
+  });
 };
 
 const logout = async (req, res) => {
@@ -85,7 +97,7 @@ export const updateWaterRate = async (req, res) => {
 };
 
 const updateAvatar = async (req, res) => {
-  const {url: avatarURL } = await cloudinary.uploader.upload(req.file.path, {
+  const { url: avatarURL } = await cloudinary.uploader.upload(req.file.path, {
     folder: "avatars",
   });
   const { _id } = req.user;
@@ -93,13 +105,14 @@ const updateAvatar = async (req, res) => {
   const newPath = path.join(avatarDir, filename);
 
   await fs.rename(oldPath, newPath);
+
   const image = await Jimp.read(newPath);
   await image.resize(250, 250).writeAsync(newPath);
 
-  // const avatarURL = path.join(avatarDir, filename);
+  const avatarURL = path.join(avatarDir, filename);
   const newUser = await userServices.updateAvatar(_id, avatarURL);
 
-  res.status(201).json(res);
+  res.json({ avatarURL: newUser.avatarURL });
 };
 
 export default {
