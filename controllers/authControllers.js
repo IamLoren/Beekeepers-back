@@ -53,9 +53,8 @@ const login = async (req, res) => {
 };
 
 const getCurrent = async (req, res) => {
-  const { email } = req.user;
-  const user = await findUser({ email });
-  res.status(200).json( token, { email: user.email, createdAt:user.createdAt, gender: user.gender, avatarURL: user.avatarURL, dailyNorma: user.dailyNorma, theme: user.theme });
+  const { email, createdAt, gender, avatarURL, dailyNorma, theme  } = req.user;
+  res.status(200).json({email, createdAt, gender, avatarURL, dailyNorma, theme });
 };
 
 const logout = async (req, res) => {
