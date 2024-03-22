@@ -6,7 +6,11 @@ import validateBody from "../helpers/validateBody.js";
 import {
   signinSchema,
   singupSchema,
+
   updateUserSchema,
+
+  verifySchema,
+
   waterRateSchema,
 } from "../schemas/usersSchemas.js";
 import { authenticate } from "../middlewares/authenticate.js";
@@ -20,6 +24,15 @@ authRouter.post(
   validateBody(singupSchema),
   authControllers.register
 );
+
+authRouter.get("/verify/:verificationToken", authControllers.verify);
+
+authRouter.post(
+  "/verify",
+  validateBody(verifySchema),
+  authControllers.resendVerify
+);
+
 authRouter.post("/login", validateBody(signinSchema), authControllers.login);
 
 authRouter.get("/current", authenticate, authControllers.getCurrent);
