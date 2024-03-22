@@ -44,6 +44,13 @@ const userSchema = new Schema(
       enum: ["light", "dark"],
       default: "light",
     },
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+    },
   },
   { versionKey: false, timestamps: true }
 );
