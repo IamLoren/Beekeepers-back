@@ -53,8 +53,8 @@ const login = async (req, res) => {
 };
 
 const getCurrent = async (req, res) => {
-  const { email, createdAt, gender } = req.user;
-  res.json = { email, createdAt, gender };
+  const { email, createdAt, gender, avatarURL, dailyNorma, theme } = req.user;
+  res.json({ email, createdAt, gender, avatarURL, dailyNorma, theme });
 };
 
 const logout = async (req, res) => {
