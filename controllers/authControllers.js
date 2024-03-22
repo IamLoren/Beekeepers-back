@@ -42,8 +42,8 @@ const register = async (req, res) => {
     gender: newUser.gender,
     dailyNormaWater: newUser.dailyWaterNorma,
     theme: newUser.theme,
-    verify: newUser.verify,
-    verificationToken: newUser.verificationToken,
+    // verify: newUser.verify,
+    // verificationToken: newUser.verificationToken,
   });
 };
 
