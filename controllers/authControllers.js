@@ -119,7 +119,6 @@ const login = async (req, res) => {
 const getCurrent = async (req, res) => {
   const { email, createdAt, gender, avatarURL, dailyNorma, theme  } = req.user;
   res.status(200).json({email, createdAt, gender, avatarURL, dailyNorma, theme });
-
 };
 
 const updateUser = async (req, res) => {
