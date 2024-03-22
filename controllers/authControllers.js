@@ -97,10 +97,10 @@ export const updateWaterRate = async (req, res) => {
 };
 
 const updateAvatar = async (req, res) => {
+  const { _id } = req.user;
   const { url: avatarURL } = await cloudinary.uploader.upload(req.file.path, {
     folder: "avatars",
   });
-  const { _id } = req.user;
   const { path: oldPath, filename } = req.file;
   const newPath = path.join(avatarDir, filename);
 
