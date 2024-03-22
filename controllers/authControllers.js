@@ -4,6 +4,7 @@ import fs from "fs/promises";
 import path from "path";
 import Jimp from "jimp";
 import { nanoid } from "nanoid";
+import dotenv from "dotenv";
 
 import * as authServices from "../services/authServices.js";
 import { findUser } from "../services/userServices.js";
@@ -138,16 +139,6 @@ const updateUser = async (req, res) => {
 
   const updatedUser = await userServices.updateUser(_id, updatedInfo);
   res.json(updatedUser);
-  const { email } = req.user;
-  const user = await findUser({ email });
-  res.status(200).json(token, {
-    email: user.email,
-    createdAt: user.createdAt,
-    gender: user.gender,
-    avatarURL: user.avatarURL,
-    dailyNorma: user.dailyNorma,
-    theme: user.theme,
-  });
 };
 
 const logout = async (req, res) => {
@@ -177,7 +168,6 @@ export const updateWaterRate = async (req, res) => {
 };
 
 const updateAvatar = async (req, res) => {
-
   const { _id } = req.user;
 
   const { url: avatarURL } = await cloudinary.uploader.upload(req.file.path, {
@@ -209,5 +199,4 @@ export default {
 
   verify: ctrWrapper(verify),
   resendVerify: ctrWrapper(resendVerify),
-
 };
