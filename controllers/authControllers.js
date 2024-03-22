@@ -45,6 +45,7 @@ const register = async (req, res) => {
     gender: newUser.gender,
     dailyNormaWater: newUser.dailyWaterNorma,
     theme: newUser.theme,
+    avatarURL: newUser.avatarURL,
     // verify: newUser.verify,
     // verificationToken: newUser.verificationToken,
   });
@@ -110,6 +111,7 @@ const login = async (req, res) => {
       gender: user.gender,
       dailyNormaWater: user.dailyWaterNorma,
       theme: user.theme,
+      avatarURL: newUser.avatarURL,
     },
   });
 };
