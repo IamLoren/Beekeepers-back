@@ -13,6 +13,8 @@ import * as userServices from "../services/userServices.js";
 import cloudinary from "../helpers/cloudinary.js";
 import sendEmail from "../helpers/sendEmail.js";
 
+dotenv.config();
+
 const avatarDir = path.resolve("public", "auth");
 
 const register = async (req, res) => {
