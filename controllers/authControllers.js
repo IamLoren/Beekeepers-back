@@ -33,7 +33,7 @@ const register = async (req, res) => {
   const verifyEmail = {
     to: email,
     subject: "Verify email",
-    html: `<a target="_blank" href="${process.env.BASE_URL}/api/auth/verify/${verificationToken}">Click to verify email</a>`,
+    html: `<a target="_blank" href="${process.env.BASE_URL}/verification">Click to verify email</a>`,
   };
 
   await sendEmail(verifyEmail);
@@ -45,8 +45,8 @@ const register = async (req, res) => {
     gender: newUser.gender,
     dailyNormaWater: newUser.dailyWaterNorma,
     theme: newUser.theme,
-    // verify: newUser.verify,
-    // verificationToken: newUser.verificationToken,
+    verify: newUser.verify,
+    verificationToken: newUser.verificationToken,
   });
 };
 
@@ -82,7 +82,7 @@ const resendVerify = async (req, res) => {
   const verifyEmail = {
     to: email,
     subject: "Verify email",
-    html: `<a target="_blank" href="${process.env.BASE_URL}/api/auth/verify/${user.verificationToken}">Click to verify email</a>`,
+    html: `<a target="_blank" href="${process.env.BASE_URL}/home">Click to verify email</a>`,
   };
 
   await sendEmail(verifyEmail);
@@ -96,6 +96,9 @@ const login = async (req, res) => {
   const user = await findUser({ email });
   if (!user) {
     throw HttpError(401, "Invalid email or password");
+  }
+  if (!user.verify) {
+    throw HttpError(401, "Email is not verified");
   }
   const passwordCompare = await bcrypt.compare(password, user.password);
   if (!passwordCompare) {
