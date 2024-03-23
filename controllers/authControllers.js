@@ -30,13 +30,7 @@ const register = async (req, res) => {
   const newUser = await authServices.signUp({ ...req.body, verificationToken });
   const token = await sign(newUser);
 
-  const verifyEmail = {
-    to: email,
-    subject: "Verify email",
-    html: `<a target="_blank" href="${process.env.BASE_URL}/verification">Click to verify email</a>`,
-  };
-
-  await sendEmail(verifyEmail);
+  await sendEmail(email);
 
   res.status(201).json({
     token,
