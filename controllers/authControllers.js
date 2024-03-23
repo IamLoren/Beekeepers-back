@@ -113,6 +113,7 @@ const login = async (req, res) => {
       gender: user.gender,
       dailyNormaWater: user.dailyWaterNorma,
       theme: user.theme,
+      avatarURL: user.avatarURL,
     },
   });
 };
