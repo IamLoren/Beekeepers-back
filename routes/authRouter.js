@@ -6,11 +6,8 @@ import validateBody from "../helpers/validateBody.js";
 import {
   signinSchema,
   singupSchema,
-
   updateUserSchema,
-
   verifySchema,
-
   waterRateSchema,
 } from "../schemas/usersSchemas.js";
 import { authenticate } from "../middlewares/authenticate.js";

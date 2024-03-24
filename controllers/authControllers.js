@@ -131,7 +131,7 @@ const updateUser = async (req, res) => {
   if (oldPassword && newPassword) {
     const passwordCompare = await bcrypt.compare(oldPassword, user.password);
     if (!passwordCompare) {
-      throw HttpError(401, "Outdated password is invalid");
+      throw HttpError(404, "Outdated password is invalid");
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 8);
