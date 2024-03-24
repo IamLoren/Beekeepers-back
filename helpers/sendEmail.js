@@ -30,6 +30,7 @@ const sendEmail = async (email) => {
     console.log("Email sent");
   } catch (error) {
     console.error(error);
+    console.error(error?.response?.body?.errors);
   }
 };
 
