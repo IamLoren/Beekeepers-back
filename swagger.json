@@ -200,9 +200,14 @@
             "description": "Successful operation"
           },
           "401": {
-            "description": "Unauthorized - Invalid token"
+            "description": "Not authorized"
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/auth/water-rate": {
@@ -678,25 +683,34 @@
         "properties": {
           "email": {
             "type": "string",
-            "format": "email"
+            "description": "User's email",
+            "format": "email",
+            "example": "test@test.com"
           },
-          "date": {
-            "type": "string"
+          "createdAt": {
+            "type": "string",
+            "description": "Date of registration",
+            "example": "2024-03-24T17:10:04.119Z"
           },
           "gender": {
-            "type": "string"
+            "type": "string",
+            "description": "User's gender",
+            "example": "man"
           },
-          "dailyNormaWater": {
-            "type": "number"
+          "avatarURL": {
+            "type": "string",
+            "description": "URL of the uploaded avatar",
+            "example": "https://example.com/avatars/new-avatar.jpg"
+          },
+          "dailyNorma": {
+            "type": "number",
+            "description": "User's daily water norm",
+            "example": 1800
           },
           "theme": {
-            "type": "string"
-          },
-          "verify": {
-            "type": "boolean"
-          },
-          "verificationToken": {
-            "type": "string"
+            "type": "string",
+            "description": "User's preferred theme",
+            "example": "light"
           }
         }
       },
@@ -806,10 +820,5 @@
         "bearerFormat": "JWT"
       }
     }
-  },
-  "security": [
-    {
-      "BearerAuth": []
-    }
-  ]
+  }
 }
