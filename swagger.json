@@ -12,6 +12,10 @@
     {
       "name": "Authentication",
       "description": "Endpoints related to user authentication"
+    },
+    {
+      "name": "Portions",
+      "description": "Endpoints related to portions management "
     }
   ],
   "paths": {
@@ -105,10 +109,26 @@
         },
         "responses": {
           "200": {
-            "description": "Successful operation"
+            "description": "Verification email sent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Verification email sent"
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
             "description": "Invalid request body"
+          },
+          "404": {
+            "description": "User not found"
           }
         }
       }
@@ -130,10 +150,17 @@
         },
         "responses": {
           "200": {
-            "description": "Successful operation"
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginResponse"
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized - Invalid credentials"
+            "description": "Invalid email or password"
           }
         }
       }
@@ -156,7 +183,12 @@
           "401": {
             "description": "Unauthorized - Invalid token"
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/auth/logout": {
@@ -190,10 +222,27 @@
         },
         "responses": {
           "200": {
-            "description": "Successful operation"
+            "description": "Water rate updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string",
+                      "description": "Update result message",
+                      "example": "Water rate updated successfully"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized - Invalid token"
+          },
+          "404": {
+            "description": "Not found"
           }
         }
       }
@@ -215,10 +264,26 @@
         },
         "responses": {
           "200": {
-            "description": "Successful operation"
+            "description": "User information updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User information updated successfully"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized - Invalid token"
+          },
+          "404": {
+            "description": "User not found"
           }
         }
       }
@@ -246,15 +311,243 @@
         },
         "responses": {
           "200": {
-            "description": "Successful operation"
+            "description": "Avatar updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "avatarURL": {
+                      "type": "string",
+                      "description": "URL of the updated avatar",
+                      "example": "https://example.com/avatars/new-avatar.jpg"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized - Invalid token"
           }
         }
       }
+    },
+
+    "/portions": {
+      "get": {
+        "tags": ["Portions"],
+        "summary": "Get all portions",
+        "responses": {
+          "200": {
+            "description": "List of all portions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Portion"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Portions"],
+        "summary": "Create a new portion",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePortionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Portion created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Portion"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Amount of water cannot exceed 5000ml"
+          }
+        }
+      }
+    },
+    "/portions/{id}": {
+      "get": {
+        "tags": ["Portions"],
+        "summary": "Get a portion by its ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the portion to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of the portion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Portion"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Portion not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Portions"],
+        "summary": "Delete a portion",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the portion to delete"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Portion deleted successfully"
+          },
+          "404": {
+            "description": "Portion not found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Portions"],
+        "summary": "Update a portion",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the portion to update"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePortionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Portion updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Portion"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Body must have at least one field"
+          },
+          "404": {
+            "description": "Portion not found"
+          }
+        }
+      }
+    },
+    "/portions/month/{date}": {
+      "get": {
+        "tags": ["Portions"],
+        "summary": "Get water consumption info for a month",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The month and year in the format MM-YYYY to retrieve water consumption info for."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Monthly water consumption info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MonthlyConsumptionInfo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portions/today/{date}": {
+      "get": {
+        "tags": ["Portions"],
+        "summary": "Get daily consumption info",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The date in the format DD-MM-YYYY to retrieve daily consumption info for."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daily consumption info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DailyConsumptionInfo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
+
   "components": {
     "schemas": {
       "registerRequest": {
@@ -340,6 +633,46 @@
           }
         }
       },
+      "loginResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOiJ..."
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "format": "email"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2024-03-22T10:11:24.290Z"
+              },
+              "gender": {
+                "type": "string",
+                "example": "woman"
+              },
+              "dailyNormaWater": {
+                "type": "number",
+                "example": 1700
+              },
+              "theme": {
+                "type": "string",
+                "example": "light"
+              },
+              "avatarURL": {
+                "type": "string",
+                "format": "uri",
+                "example": "http://res.cloudinary.com/djfzpjbvm/image/upload/v1711276006/avatars/qvw3wimlj3jljqf6vlga.png"
+              }
+            }
+          }
+        }
+      },
       "userResponse": {
         "type": "object",
         "properties": {
@@ -389,7 +722,94 @@
             "type": "string"
           }
         }
+      },
+      "portion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of water in ml"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time the portion was recorded"
+          }
+        }
+      },
+      "createPortionRequest": {
+        "type": "object",
+        "required": ["amount"],
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "Amount of water in ml"
+          }
+        }
+      },
+      "updatePortionRequest": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "Amount of water in ml"
+          }
+        }
+      },
+      "monthlyConsumptionInfo": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "string"
+          },
+          "dailyNorma": {
+            "type": "number"
+          },
+          "consumedWaterRatio": {
+            "type": "number",
+            "description": "Ratio of consumed water to the daily norm"
+          },
+          "portionsCount": {
+            "type": "number",
+            "description": "Number of portions consumed"
+          }
+        }
+      },
+      "dailyConsumptionInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of water in ml"
+          },
+          "time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time when the portion was consumed"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
-  }
+  },
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ]
 }
