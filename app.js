@@ -1,6 +1,7 @@
 import express from "express";
 // import swaggerUi from "swagger-ui-express";
 // import swaggerDocument from './swagger.json' assert { type: 'json' };
+import { readFile } from "fs/promises";
 import morgan from "morgan";
 import cors from "cors";
 import mongoose from "mongoose";
@@ -16,7 +17,9 @@ app.use(morgan("tiny"));
 app.use(express.json());
 app.use(express.static("public"));
 
-
+const swaggerDocument = JSON.parse(
+  await readFile(new URL("./swagger.json", import.meta.url))
+);
 // app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api/auth", authRouter);
 app.use("/api/portions", portionsRouter);
