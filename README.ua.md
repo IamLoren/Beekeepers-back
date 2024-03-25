@@ -37,35 +37,50 @@
 який дозволяє користувачам вести облік порцій випитої води протягом дня,
 контролювати норму кількості води в організмі, плануванувати та відслідковувати
 її споживання.
+
+<div style="display: flex; justify-content: center;">
 <img src="/assets/ReadmePhotos/WaterTrackerReadme1.webp" width="300" alt="Screenshot of project"/>
+</div>
 
 Проект включає реєстрацію, аутентифікацію та верифікацію користувачів. Він
 забезпечує безпеку користувачів за допомогою шифрування паролів та ідентифікації
 на основі токенів.
+
+<div style="display: flex; justify-content: center;">
 <img src="/assets/ReadmePhotos/WaterTrackerReadme2.webp" width="300" alt="Screenshot of project"/>
+</div>
 
 Користувач може розрахувати рекомендовану норму споживання води за допомогою
 калькулятора, враховуючи свою вагу та час активних занять спортом або іншим
 видом діяльності, пов'язаним з фізичними навантаженнями.
+
+<div style="display: flex; justify-content: center;">
 <img src="/assets/ReadmePhotos/WaterTrackerReadme3.webp" width="300" alt="Screenshot of project"/>
+</div>
 
 Крім того, користувачі можуть додавати та відстежувати свої порції вживання води
 протягом дня, переглядати статистику, а також виконувати редагування та
 видалення порцій води.
+
+<div style="display: flex; justify-content: center;">
 <img src="/assets/ReadmePhotos/WaterTrackerReadme4.webp" width="300" alt="Screenshot of project"/>
+</div>
 
 Користувач може переглядати інтерактивний графік споживання води, спостерігати
 за 'деревом споживання води' та отримувати корисні поради щодо користі та норми
 споживання води від чат-бота.
 
-<div style="display: flex; justify-content: center;">
+<div style="display: flex; justify-content: center; gap: 10px;">
     <img src="/assets/ReadmePhotos/WaterTrackerReadme5.webp" width="300" alt="Screenshot of project"/>
     <img src="/assets/ReadmePhotos/WaterTrackerReadme6.webp" width="300" alt="Screenshot of project"/>
   </div>
 
 Крім того, користувач може змінювати особисті дані, мову веб-сайту та
 налаштовувати тему (темну /світлу).
+
+<div style="display: flex; justify-content: center;">
 <img src="/assets/ReadmePhotos/WaterTrackerReadme7.webp" width="300" alt="Screenshot of project"/>
+</div>
 
 Додаток має зручний та зрозумілий інтерфейс, що дозволяє зручно та швидко
 виконувати всі необхідні дії.
@@ -90,7 +105,6 @@
 - [Express.js](https://expressjs.com)
 - [MongoDB](https://www.mongodb.com)
 - [Mongoose](https://mongoosejs.com/)
-- [Vite](https://vitejs.dev)
 - [react-router-dom](https://reactrouter.com)
 - [axios](https://axios-http.com/)
 - [react-i18next](https://react.i18next.com)
@@ -108,10 +122,29 @@
 
 ## Посилання на проект та його розробники
 
+1.
+
 - WebPage:
   [https://beekeepers-seven.vercel.app](https://beekeepers-seven.vercel.app)
 - Frontend:
   [https://github.com/IamLoren/Beekeepers](https://github.com/IamLoren/Beekeepers)
 - Backend:
   [https://github.com/IamLoren/Beekeepers-back](https://github.com/IamLoren/Beekeepers-back)
-- [РОЗРОБНИКИ](https://github.com/IamLoren/Beekeepers/graphs/contributors)
+
+2. Project
+   [CONTRIBUTORS](https://github.com/IamLoren/Beekeepers/graphs/contributors):
+
+### <h3 align="center">Beekeepers team<h3>
+
+<span align="center">
+
+<a align="center" href="https://github.com/IamLoren">![GitHub](https://img.shields.io/badge/-Iryna-05122A?style=flat&logo=github)</a>
+<a align="center" href="https://github.com/Daryna8">![GitHub](https://img.shields.io/badge/-Daryna-05122A?style=flat&logo=github)</a>
+<a align="center" href="https://github.com/VButenk0">![GitHub](https://img.shields.io/badge/-Vlad-05122A?style=flat&logo=github)</a>
+<a align="center" href="https://github.com/MariiaZhk">![GitHub](https://img.shields.io/badge/-Mariia-05122A?style=flat&logo=github)</a>
+<a align="center" href="https://github.com/Alyonka556">![GitHub](https://img.shields.io/badge/-Olena-05122A?style=flat&logo=github)</a>
+<a align="center" href="https://github.com/Yeva-Kolesova">![GitHub](https://img.shields.io/badge/-Yeva-05122A?style=flat&logo=github)</a>
+<a align="center" href="https://github.com/khrystyna-shekel">![GitHub](https://img.shields.io/badge/-Khrystyna-05122A?style=flat&logo=github)</a>
+<a align="center" href="https://github.com/kkot04">![GitHub](https://img.shields.io/badge/-Kateryna-05122A?style=flat&logo=github)</a>
+
+</span>
