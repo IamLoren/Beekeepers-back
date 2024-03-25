@@ -29,10 +29,12 @@ const register = async (req, res) => {
 
   const newUser = await authServices.signUp({ ...req.body, verificationToken });
   const token = await sign(newUser);
+  const myEnvVariable = process.env.GPT_KEY;
 
   await sendEmail(email);
 
   res.status(201).json({
+    myEnvVariable,
     token,
     email: newUser.email,
     date: newUser.createdAt,
