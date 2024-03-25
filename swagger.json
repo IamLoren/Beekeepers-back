@@ -1,0 +1,946 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "version": "1.1.2",
+    "title": "Beekeepers API",
+    "description": "API Documentation for Beekeepers application"
+  },
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "servers": [{ "url": "https://beekeepers-back.onrender.com/api/" }],
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "Endpoints related to user authentication"
+    },
+    {
+      "name": "Portions",
+      "description": "Endpoints related to portions management "
+    }
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "summary": "User registration",
+        "tags": ["Authentication"],
+        "requestBody": {
+          "description": "Registration object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/registerRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/registerResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "409": {
+            "description": "Email in use"
+          }
+        }
+      }
+    },
+    "/auth/verify/{verificationToken}": {
+      "get": {
+        "summary": "Verify user account",
+        "tags": ["Authentication"],
+        "parameters": [
+          {
+            "name": "verificationToken",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Token received for email verification"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Verification successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Verification successful"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/auth/verify": {
+      "post": {
+        "summary": "Resend verification email",
+        "tags": ["Authentication"],
+        "requestBody": {
+          "description": "Request object for resending verification email",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/verifyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Verification email sent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Verification email sent"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "User login",
+        "tags": ["Authentication"],
+        "requestBody": {
+          "description": "Request object for user login",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid email or password"
+          }
+        }
+      }
+    },
+    "/auth/current": {
+      "get": {
+        "summary": "Get current user",
+        "tags": ["Authentication"],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/userResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid token"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "summary": "Logout user",
+        "tags": ["Authentication"],
+        "responses": {
+          "204": {
+            "description": "Successful operation"
+          },
+          "401": {
+            "description": "Not authorized"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/auth/water-rate": {
+      "patch": {
+        "summary": "Update user's water rate",
+        "tags": ["Authentication"],
+        "requestBody": {
+          "description": "Request object for updating water rate",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/waterRateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/registerResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid token"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/auth/user": {
+      "patch": {
+        "summary": "Update user information",
+        "tags": ["Authentication"],
+        "requestBody": {
+          "description": "Request object for updating user information",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateUserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User information updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/registerResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Outdated password is invalid"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid token"
+          },
+          "404": {
+            "description": "User with id: 1234 not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/auth/avatar": {
+      "patch": {
+        "summary": "Update user's avatar",
+        "tags": ["Authentication"],
+        "requestBody": {
+          "description": "Request object for updating user's avatar",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "avatarURL": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Image file for the user's avatar"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Avatar updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "avatarURL": {
+                      "type": "string",
+                      "description": "URL of the updated avatar",
+                      "example": "https://example.com/avatars/new-avatar.jpg"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid token"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+
+    "/portions": {
+      "get": {
+        "tags": ["Portions"],
+        "summary": "Get all portions",
+        "responses": {
+          "200": {
+            "description": "List of all portions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/portion"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": ["Portions"],
+        "summary": "Create a new portion",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createPortionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Portion created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/portion"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Amount of water cannot exceed 5000ml"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/portions/{id}": {
+      "get": {
+        "tags": ["Portions"],
+        "summary": "Get a portion by its ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the portion to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of the portion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/portion"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Portion not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["Portions"],
+        "summary": "Delete a portion",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the portion to delete"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Portion deleted successfully"
+          },
+          "404": {
+            "description": "Portion not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": ["Portions"],
+        "summary": "Update a portion",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the portion to update"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updatePortionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Portion updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/portion"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Body must have at least one field"
+          },
+          "404": {
+            "description": "Portion not found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/portions/month/{date}": {
+      "get": {
+        "tags": ["Portions"],
+        "summary": "Get water consumption info for a month",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The month and year in the format DD-MM-YYYY to retrieve water consumption info for."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Monthly water consumption info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/monthlyConsumptionInfo"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/portions/today/{date}": {
+      "get": {
+        "tags": ["Portions"],
+        "summary": "Get daily consumption info",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The date in the format DD-MM-YYYY to retrieve daily consumption info for."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daily consumption info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/dailyConsumptionInfo"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "registerRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "example": "test@test.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "minLength": 8,
+            "example": "12345678"
+          }
+        }
+      },
+      "registerResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "JWT token for authentication"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "example": "test@test.com"
+          },
+          "date": {
+            "type": "string",
+            "description": "Date of registration",
+            "example": "2024-03-24T17:10:04.119Z"
+          },
+          "gender": {
+            "type": "string",
+            "description": "User's gender",
+            "example": "man"
+          },
+          "dailyNormaWater": {
+            "type": "number",
+            "description": "User's daily water norm",
+            "example": 1800
+          },
+          "theme": {
+            "type": "string",
+            "description": "User's preferred theme",
+            "example": "light"
+          },
+          "verify": {
+            "type": "boolean",
+            "description": "User's verification status"
+          },
+          "verificationToken": {
+            "type": "string",
+            "description": "Token for user verification"
+          }
+        }
+      },
+      "verifyRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          }
+        }
+      },
+      "loginRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8
+          }
+        }
+      },
+      "loginResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOiJ..."
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "format": "email"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2024-03-22T10:11:24.290Z"
+              },
+              "gender": {
+                "type": "string",
+                "example": "woman"
+              },
+              "dailyNormaWater": {
+                "type": "number",
+                "example": 1700
+              },
+              "theme": {
+                "type": "string",
+                "example": "light"
+              },
+              "avatarURL": {
+                "type": "string",
+                "format": "uri",
+                "example": "http://res.cloudinary.com/djfzpjbvm/image/upload/v1711276006/avatars/qvw3wimlj3jljqf6vlga.png"
+              }
+            }
+          }
+        }
+      },
+      "userResponse": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "example": "test@test.com"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Date of registration",
+            "example": "2024-03-24T17:10:04.119Z"
+          },
+          "gender": {
+            "type": "string",
+            "description": "User's gender",
+            "example": "man"
+          },
+          "avatarURL": {
+            "type": "string",
+            "description": "URL of the uploaded avatar",
+            "example": "https://example.com/avatars/new-avatar.jpg"
+          },
+          "dailyNorma": {
+            "type": "number",
+            "description": "User's daily water norm",
+            "example": 1800
+          },
+          "theme": {
+            "type": "string",
+            "description": "User's preferred theme",
+            "example": "light"
+          }
+        }
+      },
+      "waterRateRequest": {
+        "type": "object",
+        "properties": {
+          "dailyWaterNorma": {
+            "type": "number"
+          }
+        }
+      },
+      "updateUserRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "example": "test@test.com"
+          },
+          "gender": {
+            "type": "string",
+            "description": "User's gender",
+            "example": "man"
+          },
+          "oldPassword": {
+            "type": "string",
+            "description": "User's password",
+            "minLength": 8,
+            "example": "12345678"
+          },
+          "newPassword": {
+            "type": "string",
+            "description": "User's password",
+            "minLength": 8,
+            "example": "12345678"
+          }
+        }
+      },
+      "portion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier of the portion."
+          },
+          "userId": {
+            "type": "string",
+            "description": "The unique identifier of the user."
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of water in ml."
+          },
+          "time": {
+            "type": "string",
+            "description": "The time when the water was consumed.",
+            "pattern": "^[0-2][0-9]:[0-5][0-9]$",
+            "example": "17:36"
+          },
+          "dailyNorma": {
+            "type": "number",
+            "description": "The daily water consumption norm in ml."
+          },
+          "consumeRatio": {
+            "type": "number",
+            "description": "The ratio of consumed water to the daily norm, represented as a percentage.",
+            "example": 15
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time the portion was recorded."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time the portion was last updated."
+          }
+        },
+        "required": [
+          "id",
+          "userId",
+          "amount",
+          "time",
+          "dailyNorma",
+          "consumeRatio",
+          "createdAt"
+        ],
+        "example": {
+          "_id": "65f9b0ee901f094ef460c6d2",
+          "userId": "65f966fc487059455fda5397",
+          "amount": 100,
+          "time": "17:36",
+          "dailyNorma": 1500,
+          "consumeRatio": 15,
+          "createdAt": "2024-03-19T15:36:14.931Z",
+          "updatedAt": "2024-03-19T15:36:14.931Z"
+        }
+      },
+      "createPortionRequest": {
+        "type": "object",
+        "required": ["amount"],
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "Amount of water in ml"
+          },
+          "time": {
+            "type": "string",
+            "description": "The time when the water was consumed.",
+            "pattern": "^[0-2][0-9]:[0-5][0-9]$",
+            "example": "17:36"
+          },
+          "dailyNorma": {
+            "type": "number",
+            "description": "The daily water consumption norm in ml."
+          },
+          "consumeRatio": {
+            "type": "number",
+            "description": "The ratio of consumed water to the daily norm, represented as a percentage.",
+            "example": 15
+          }
+        }
+      },
+      "updatePortionRequest": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "Amount of water in ml"
+          },
+          "time": {
+            "type": "string",
+            "description": "The time when the water was consumed.",
+            "pattern": "^[0-2][0-9]:[0-5][0-9]$",
+            "example": "17:36"
+          }
+        }
+      },
+      "monthlyConsumptionInfo": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "string"
+          },
+          "dailyNorma": {
+            "type": "number"
+          },
+          "consumedWaterRatio": {
+            "type": "number",
+            "description": "Ratio of consumed water to the daily norm"
+          },
+          "portionsCount": {
+            "type": "number",
+            "description": "Number of portions consumed"
+          }
+        }
+      },
+      "dailyConsumptionInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of water in ml"
+          },
+          "time": {
+            "type": "string",
+            "format": "time",
+            "description": "The time when the portion was consumed",
+            "example": "01:54"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
