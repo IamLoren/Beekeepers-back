@@ -1,6 +1,6 @@
 import express from "express";
-import swaggerUi from "swagger-ui-express";
-import swaggerDocument from './swagger.json' assert { type: 'json' };
+// import swaggerUi from "swagger-ui-express";
+// import swaggerDocument from './swagger.json' assert { type: 'json' };
 import morgan from "morgan";
 import cors from "cors";
 import mongoose from "mongoose";
@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api/auth", authRouter);
 app.use("/api/portions", portionsRouter);
 
