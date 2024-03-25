@@ -20,7 +20,7 @@ app.use(express.static("public"));
 // const swaggerDocument = JSON.parse(
 //   await readFile(new URL("./swagger.json", import.meta.url))
 // );
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api/auth", authRouter);
 app.use("/api/portions", portionsRouter);
 
