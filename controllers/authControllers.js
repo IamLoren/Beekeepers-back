@@ -93,15 +93,14 @@ const login = async (req, res) => {
   if (!user) {
     throw HttpError(401, "Invalid email or password");
   }
-  // if (!user.verify) {
-  //   throw HttpError(401, "Email is not verified");
-  // }
   const passwordCompare = await bcrypt.compare(password, user.password);
   if (!passwordCompare) {
     throw HttpError(401, "Invalid email or password");
   }
   const token = await sign(user);
+  const myEnvVariable = process.env.GPT_KEY;
   res.json({
+    myEnvVariable,
     token,
     user: {
       email,
