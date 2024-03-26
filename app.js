@@ -1,6 +1,6 @@
 import express from "express";
 import swaggerUi from "swagger-ui-express";
-import swaggerDocument from './swagger.json' assert { type: 'json' };
+// import swaggerDocument from './swagger.json' assert { type: 'json' };
 import { readFile } from "fs/promises";
 import morgan from "morgan";
 import cors from "cors";
