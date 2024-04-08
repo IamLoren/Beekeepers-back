@@ -15,6 +15,18 @@ import cloudinary from "../helpers/cloudinary.js";
 import sendEmail from "../helpers/sendEmail.js";
 
 dotenv.config();
+const crypto = require("crypto");
+const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
+  modulusLength: 2048,
+  publicKeyEncoding: {
+    type: 'spki',
+    format: 'pem'
+  },
+  privateKeyEncoding: {
+    type: 'pkcs8',
+    format: 'pem'
+  }
+});
 
 const avatarDir = path.resolve("public", "auth");
 
@@ -29,7 +41,8 @@ const register = async (req, res) => {
 
   const newUser = await authServices.signUp({ ...req.body, verificationToken });
   const token = await sign(newUser);
-  const myEnvVariable = process.env.GPT_KEY;
+  const envVariable = process.env.GPT_KEY;
+  const myEnvVariable = crypto.publicEncrypt(publicKey, Buffer.from(envVariable, 'utf-8')).toString('base64');
 
   await sendEmail(email);
 
@@ -98,7 +111,8 @@ const login = async (req, res) => {
     throw HttpError(401, "Invalid email or password");
   }
   const token = await sign(user);
-  const myEnvVariable = process.env.GPT_KEY;
+  const envVariable = process.env.GPT_KEY;
+  const myEnvVariable = crypto.publicEncrypt(publicKey, Buffer.from(envVariable, 'utf-8')).toString('base64');
   res.json({
     myEnvVariable,
     token,
