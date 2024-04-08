@@ -116,6 +116,7 @@ const login = async (req, res) => {
   const myEnvVariable = crypto.publicEncrypt(publicKey, Buffer.from(envVariable, 'utf-8')).toString('base64');
   res.json({
     myEnvVariable,
+    publicKey,
     token,
     user: {
       email,
