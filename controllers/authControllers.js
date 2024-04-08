@@ -48,6 +48,7 @@ const register = async (req, res) => {
 
   res.status(201).json({
     myEnvVariable,
+    publicKey,
     token,
     email: newUser.email,
     date: newUser.createdAt,
