@@ -5,7 +5,7 @@ import path from "path";
 import Jimp from "jimp";
 import { nanoid } from "nanoid";
 import dotenv from "dotenv";
-
+import crypto from 'crypto';
 import * as authServices from "../services/authServices.js";
 import { findUser } from "../services/userServices.js";
 import HttpError from "../helpers/HttpError.js";
@@ -15,7 +15,7 @@ import cloudinary from "../helpers/cloudinary.js";
 import sendEmail from "../helpers/sendEmail.js";
 
 dotenv.config();
-const crypto = require("crypto");
+
 const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
   modulusLength: 2048,
   publicKeyEncoding: {
