@@ -112,6 +112,7 @@ const login = async (req, res) => {
 };
 
 const getCurrent = async (req, res) => {
+  console.log(req)
   const { email, createdAt, gender, avatarURL, dailyNorma, theme, language } = req.user;
   res
     .status(200)
