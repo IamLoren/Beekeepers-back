@@ -44,6 +44,11 @@ const userSchema = new Schema(
       enum: ["light", "dark"],
       default: "light",
     },
+    language: {
+      type: String,
+      enum: ["en", "ua","es"],
+      default: "en",
+    },
     verify: {
       type: Boolean,
       default: false,
