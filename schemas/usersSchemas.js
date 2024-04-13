@@ -21,6 +21,7 @@ export const updateUserSchema = Joi.object({
   oldPassword: Joi.string().min(8),
   newPassword: Joi.string().min(8),
   gender: Joi.string().valid("man", "woman"),
+  language: Joi.string().valid("en", "ua", "es"),
   theme: Joi.string().valid("light", "dark"),
 });
 
